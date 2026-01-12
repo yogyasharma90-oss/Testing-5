@@ -1,23 +1,35 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Happy Birthday Love</title>
+
 <style>
 body {
   margin: 0;
   background: #0b1020;
   color: white;
-  font-family: 'Arial', sans-serif;
+  font-family: Arial, sans-serif;
   overflow: hidden;
+}
+
+/* COUNTDOWN */
+#countdown {
+  position: fixed;
+  top: 20px;
+  width: 100%;
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  z-index: 5;
 }
 
 /* SPAM MESSAGES */
 .message {
   position: absolute;
   font-size: 18px;
-  opacity: 0.8;
-  animation: float 8s linear infinite;
+  opacity: 0.75;
+  animation: float 8s linear forwards;
 }
 
 @keyframes float {
@@ -37,57 +49,57 @@ body {
 }
 
 #popup h1 {
-  font-size: 36px;
+  font-size: 38px;
   font-weight: bold;
 }
 
 #giftBtn {
   margin-top: 20px;
-  padding: 14px 28px;
+  padding: 14px 30px;
   background: hotpink;
-  border-radius: 40px;
+  border-radius: 50px;
   cursor: pointer;
   font-size: 20px;
-  color: white;
 }
 
 /* PAGE 2 */
 #page2 {
   display: none;
+  background: #0b1020;
+  min-height: 100vh;
   text-align: center;
-  padding-top: 80px;
 }
 
-#page2 img {
-  width: 280px;
-  aspect-ratio: 1/1;
+#giftImage {
+  width: 100vw;
+  height: 100vw;
+  object-fit: cover;
 }
 
 .btn {
-  padding: 12px 24px;
-  margin: 10px;
-  border-radius: 30px;
+  padding: 14px 30px;
+  margin: 12px;
+  border-radius: 40px;
   background: hotpink;
   color: white;
   cursor: pointer;
   display: inline-block;
+  font-size: 18px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- PAGE 1 -->
-<div id="page1"></div>
+<div id="countdown">01:00</div>
 
 <div id="popup">
   <h1>HAPPY BIRTHDAY LOVE</h1>
   <div id="giftBtn" onclick="goPage2()">gift?</div>
 </div>
 
-<!-- PAGE 2 -->
 <div id="page2">
-  <img src="gift.png">
+  <img id="giftImage" src="gift.png">
   <h2>FOR YOU</h2>
   <h3>WANNA CONTINUE?</h3>
   <div id="choices">
@@ -97,28 +109,43 @@ body {
 </div>
 
 <script>
+/* COUNTDOWN */
+let time = 60;
+const cd = document.getElementById("countdown");
+
+const timer = setInterval(() => {
+  let m = Math.floor(time / 60);
+  let s = time % 60;
+  cd.innerText = `0${m}:${s < 10 ? "0" + s : s}`;
+  time--;
+
+  if (time < 0) {
+    clearInterval(timer);
+    cd.style.display = "none";
+    popup.style.display = "block";
+  }
+}, 1000);
+
 /* SPAM MESSAGES */
+let spamOn = true;
 const texts = ["Happy Birthday 💖","I love you 💕","Mine forever 💌","My person 🫶"];
 
-setInterval(() => {
+function spam() {
+  if (!spamOn) return;
   const msg = document.createElement("div");
   msg.className = "message";
   msg.innerText = texts[Math.floor(Math.random()*texts.length)];
   msg.style.left = Math.random()*100 + "vw";
   document.body.appendChild(msg);
   setTimeout(() => msg.remove(), 8000);
-}, 400);
+}
 
-/* SHOW POPUP AFTER 30 SECONDS */
-setTimeout(() => {
-  document.getElementById("popup").style.display = "block";
-}, 30000);
+setInterval(spam, 400);
 
 /* PAGE SWITCH */
 function goPage2() {
-  document.getElementById("popup").style.display = "none";
-  document.getElementById("page1").style.display = "none";
-  document.getElementById("page2").style.display = "block";
+  spamOn = false;              // STOP spam messages
+  document.body.innerHTML = document.getElementById("page2").outerHTML;
 }
 
 /* BUTTON LOGIC */
@@ -130,7 +157,7 @@ function no() {
 }
 
 function yes() {
-  alert("Hehehe 💖 next page coming soon 😌");
+  alert("Hehehe 💗 next page soon 😌");
 }
 </script>
 
