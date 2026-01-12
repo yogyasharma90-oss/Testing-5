@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy Birthday Love</title>
+<style>
+body {
+  margin: 0;
+  background: #0b1020;
+  color: white;
+  font-family: 'Arial', sans-serif;
+  overflow: hidden;
+}
+
+/* SPAM MESSAGES */
+.message {
+  position: absolute;
+  font-size: 18px;
+  opacity: 0.8;
+  animation: float 8s linear infinite;
+}
+
+@keyframes float {
+  from { transform: translateY(100vh); }
+  to { transform: translateY(-10vh); }
+}
+
+/* POPUP */
+#popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  display: none;
+  z-index: 10;
+}
+
+#popup h1 {
+  font-size: 36px;
+  font-weight: bold;
+}
+
+#giftBtn {
+  margin-top: 20px;
+  padding: 14px 28px;
+  background: hotpink;
+  border-radius: 40px;
+  cursor: pointer;
+  font-size: 20px;
+  color: white;
+}
+
+/* PAGE 2 */
+#page2 {
+  display: none;
+  text-align: center;
+  padding-top: 80px;
+}
+
+#page2 img {
+  width: 280px;
+  aspect-ratio: 1/1;
+}
+
+.btn {
+  padding: 12px 24px;
+  margin: 10px;
+  border-radius: 30px;
+  background: hotpink;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+}
+</style>
+</head>
+
+<body>
+
+<!-- PAGE 1 -->
+<div id="page1"></div>
+
+<div id="popup">
+  <h1>HAPPY BIRTHDAY LOVE</h1>
+  <div id="giftBtn" onclick="goPage2()">gift?</div>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2">
+  <img src="gift.png">
+  <h2>FOR YOU</h2>
+  <h3>WANNA CONTINUE?</h3>
+  <div id="choices">
+    <div class="btn" onclick="yes()">Yes</div>
+    <div class="btn" onclick="no()">No</div>
+  </div>
+</div>
+
+<script>
+/* SPAM MESSAGES */
+const texts = ["Happy Birthday 💖","I love you 💕","Mine forever 💌","My person 🫶"];
+
+setInterval(() => {
+  const msg = document.createElement("div");
+  msg.className = "message";
+  msg.innerText = texts[Math.floor(Math.random()*texts.length)];
+  msg.style.left = Math.random()*100 + "vw";
+  document.body.appendChild(msg);
+  setTimeout(() => msg.remove(), 8000);
+}, 400);
+
+/* SHOW POPUP AFTER 30 SECONDS */
+setTimeout(() => {
+  document.getElementById("popup").style.display = "block";
+}, 30000);
+
+/* PAGE SWITCH */
+function goPage2() {
+  document.getElementById("popup").style.display = "none";
+  document.getElementById("page1").style.display = "none";
+  document.getElementById("page2").style.display = "block";
+}
+
+/* BUTTON LOGIC */
+function no() {
+  document.getElementById("choices").innerHTML = `
+    <div class="btn" onclick="yes()">Yes</div>
+    <div class="btn" onclick="yes()">Yes</div>
+  `;
+}
+
+function yes() {
+  alert("Hehehe 💖 next page coming soon 😌");
+}
+</script>
+
+</body>
+</html>
